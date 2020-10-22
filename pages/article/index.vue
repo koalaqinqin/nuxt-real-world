@@ -7,7 +7,10 @@
         <div class="article-meta">
           <a href=""><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
           <div class="info">
-            <a href="" class="author">Eric Simons</a>
+            <a
+              href=""
+              class="author"
+            >Eric Simons</a>
             <span class="date">January 20th</span>
           </div>
           <button class="btn btn-sm btn-outline-secondary">
@@ -39,11 +42,12 @@
 
       <div class="article-actions">
         <div class="article-meta">
-          <a href="profile.html"
-            ><img src="http://i.imgur.com/Qr71crq.jpg"
-          /></a>
+          <a href="profile.html"><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
           <div class="info">
-            <a href="" class="author">Eric Simons</a>
+            <a
+              href=""
+              class="author"
+            >Eric Simons</a>
             <span class="date">January 20th</span>
           </div>
 
@@ -86,14 +90,20 @@
               </p>
             </div>
             <div class="card-footer">
-              <a href="" class="comment-author">
+              <a
+                href=""
+                class="comment-author"
+              >
                 <img
                   src="http://i.imgur.com/Qr71crq.jpg"
                   class="comment-author-img"
                 />
               </a>
               &nbsp;
-              <a href="" class="comment-author">Jacob Schmidt</a>
+              <a
+                href=""
+                class="comment-author"
+              >Jacob Schmidt</a>
               <span class="date-posted">Dec 29th</span>
             </div>
           </div>
@@ -106,14 +116,20 @@
               </p>
             </div>
             <div class="card-footer">
-              <a href="" class="comment-author">
+              <a
+                href=""
+                class="comment-author"
+              >
                 <img
                   src="http://i.imgur.com/Qr71crq.jpg"
                   class="comment-author-img"
                 />
               </a>
               &nbsp;
-              <a href="" class="comment-author">Jacob Schmidt</a>
+              <a
+                href=""
+                class="comment-author"
+              >Jacob Schmidt</a>
               <span class="date-posted">Dec 29th</span>
               <span class="mod-options">
                 <i class="ion-edit"></i>
@@ -126,3 +142,17 @@
     </div>
   </div>
 </template>
+
+<script>
+import { getArticles } from '@/api/article';
+export default {
+  name: 'Articles',
+  async asyncData() {
+    const { data } = await getArticles();
+    return {
+      articles: data.articles,
+      articlesCount: data.articlesCount
+    };
+  },
+};
+</script>
