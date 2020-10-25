@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-10-20 00:01:07
- * @LastEditTime: 2020-10-21 23:56:45
+ * @LastEditTime: 2020-10-26 00:20:31
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /nuxt-real-world/nuxt.config.js
@@ -26,6 +26,7 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
+    '~/plugins/dayjs.js'
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -64,27 +65,27 @@ export default {
             },
             {
               path: '/register',
-              name: 'register ',
+              name: 'register',
               component: resolve(__dirname, 'pages/login')
             },
             {
               path: '/profile/:username',
-              name: 'profile ',
+              name: 'profile',
               component: resolve(__dirname, 'pages/profile')
             },
             {
               path: '/setting',
-              name: 'setting ',
+              name: 'setting',
               component: resolve(__dirname, 'pages/setting')
             },
             {
               path: '/editor',
-              name: 'editor ',
+              name: 'editor',
               component: resolve(__dirname, 'pages/editor')
             },
             {
               path: '/article/:slug',
-              name: 'article ',
+              name: 'article',
               component: resolve(__dirname, 'pages/article')
             }
           ]

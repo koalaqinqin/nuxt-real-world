@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-10-25 22:17:13
+ * @LastEditTime: 2020-10-26 00:04:02
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /nuxt-real-world/api/article.js
+ */
 import { request } from '@/http/request';
 
 // 获取公共文章列表
@@ -14,11 +22,7 @@ export const getYourFeedArticles = params => {
   return request({
     method: 'GET',
     url: '/api/articles/feed',
-    params,
-    // headers: {
-    //   // 添加用户身份，数据格式：Token空格Token数据
-    //   Authorization: `Token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NDgxMTYsInVzZXJuYW1lIjoibHB6OTk5IiwiZXhwIjoxNTk3NzQxNTA4fQ.2yO8Fss4hYnvsIN2UYHsutQ1hmYqSSAA-UrIRnP4DOY`
-    // }
+    params
   });
 };
 

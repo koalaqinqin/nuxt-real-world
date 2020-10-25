@@ -144,14 +144,18 @@
 </template>
 
 <script>
-import { getArticles } from '@/api/article';
+import { getArticle } from '@/api/article';
+import MarkdownIt from 'markdown-it';
 export default {
-  name: 'Articles',
-  async asyncData() {
-    const { data } = await getArticles();
+  name: 'Article',
+  async asyncData ({ params }) {
+    const { data } = await getArticle(params.slug);
+    const { article } = data;
+    const md = new MarkdownIt();
+    article.body = md.render(article.body);
+
     return {
-      articles: data.articles,
-      articlesCount: data.articlesCount
+      article
     };
   },
 };
