@@ -21,7 +21,6 @@ export default ({ store }) => {
   request.interceptors.request.use(function (config) {
     // 请求就会经过这里
     const { user } = store.state;
-
     if (user && user.token) {
       config.headers.Authorization = `Token ${user.token}`;
     }
