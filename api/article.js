@@ -57,3 +57,14 @@ export const getComments = slug => {
     url: `/api/articles/${slug}/comments`
   });
 };
+
+// 提交文章评论
+export const addComments = params => {
+  return request({
+    method: 'POST',
+    url: `/api/articles/${params.slug}/comments`,
+    data: {
+      comment: params.comment
+    }
+  });
+};
