@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-10-20 00:01:07
- * @LastEditTime: 2020-11-03 01:16:11
+ * @LastEditTime: 2020-11-03 01:47:40
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /nuxt-real-world/nuxt.config.js
@@ -16,7 +16,7 @@ export default {
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: './favicon.ico' }
     ]
   },
 
@@ -45,6 +45,7 @@ export default {
   build: {
   },
   router: { // 自定义路由表规则
+    base: '/nuxt-real-world/',
     linkActiveClass: 'active',
     extendRoutes(routes, resolve) {
       routes.splice(0); // 清除 nuxtJs 基于 pages 目录默认生成的路由表规则
