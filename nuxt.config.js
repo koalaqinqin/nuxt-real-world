@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-10-20 00:01:07
- * @LastEditTime: 2020-11-02 23:58:41
+ * @LastEditTime: 2020-11-03 01:16:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /nuxt-real-world/nuxt.config.js
@@ -47,7 +47,6 @@ export default {
   router: { // 自定义路由表规则
     linkActiveClass: 'active',
     extendRoutes(routes, resolve) {
-      console.log(routes);
       routes.splice(0); // 清除 nuxtJs 基于 pages 目录默认生成的路由表规则
       routes.push(...[
         {

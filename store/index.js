@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-10-25 22:17:13
+ * @LastEditTime: 2020-11-03 00:53:31
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: /nuxt-real-world/store/index.js
+ */
 const cookieparser = process.server ? require('cookieparser') : undefined;
 
 // 在服务端渲染期间运行都是同一个实例
@@ -23,7 +31,7 @@ export const actions = {
     let user = null;
 
     // 如果请求头中有 Cookie
-    if (req.headers.cookie) {
+    if (req && req.headers.cookie) {
       // 使用 cookieparser 把 cookie 字符串转为 JavaScript 对象
       const parsed = cookieparser.parse(req.headers.cookie);
       try {

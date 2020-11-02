@@ -1,15 +1,16 @@
 /*
  * @Author: your name
  * @Date: 2020-10-25 22:17:13
- * @LastEditTime: 2020-10-25 23:56:47
- * @LastEditors: your name
+ * @LastEditTime: 2020-11-03 00:44:50
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /nuxt-real-world/http/request.js
  */
 import axios from 'axios';
 
 export const request = axios.create({
-  baseURL: 'http://realworld.api.fed.lagounews.com' // api 基础路径
+  baseURL: 'https://conduit.productionready.io',
+  // baseURL: 'http://realworld.api.fed.lagounews.com' // api 基础路径
 });
 
 // 请求拦截器

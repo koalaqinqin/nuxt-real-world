@@ -11,7 +11,7 @@
       </div>
       <div class="card-footer">
         <img
-          :src="user.image"
+          :src="user ? user.image : ''"
           class="comment-author-img"
         />
         <button class="btn btn-sm btn-primary" :class="{disabled: comment === ''}">Post Comment</button>
@@ -22,7 +22,7 @@
       <div class="card-block">
         <p class="card-text" v-html="msg.body"></p>
       </div>
-      <div class="card-footer">
+      <div class="card-footer" v-if="msg.author">
         <nuxt-link
           :to="{
             name: 'profile',
