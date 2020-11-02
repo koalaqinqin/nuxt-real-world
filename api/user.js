@@ -25,3 +25,19 @@ export const register = data => {
     data
   });
 };
+
+// 添加follow
+export const addFollow = username => {
+  return request({
+    method: 'POST',
+    url: `/api/profiles/${username}/follow`
+  });
+};
+
+// 取消follow
+export const deleteFollow = username => {
+  return request({
+    method: 'DELETE',
+    url: `/api/profiles/${username}/follow`
+  });
+};

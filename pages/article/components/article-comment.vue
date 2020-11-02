@@ -58,6 +58,7 @@ import { mapState } from 'vuex';
 import { addComments, getComments } from '@/api/article';
 
 export default {
+  name: 'article-comment',
   data() {
     return {
       comment: '',

@@ -24,14 +24,23 @@
           >{{ article.author.username }}</nuxt-link>
         <span class="date">{{ article.createdAt | date('MMM DD, YYYY') }}</span>
       </div>
-      <button class="btn btn-sm btn-outline-secondary" :class="{ active: article.author.following }">
+      <button
+        class="btn btn-sm btn-outline-secondary"
+        :class="{ active: article.author.following }"
+        :disabled="article.author.followingDisabled"
+        @click="onFollow"
+      >
         <i class="ion-plus-round"></i>
         &nbsp; Follow {{ article.author.username }} 
-        <!-- <span class="counter">({{  }})</span> -->
       </button>
     </template>
     &nbsp;&nbsp;
-    <button class="btn btn-sm btn-outline-primary" :class="{ active: article.favorited }">
+    <button
+      class="btn btn-sm btn-outline-primary"
+      :class="{ active: article.favorited }"
+      :disabled="article.favoriteDisabled"
+      @click="onFavorite"
+    >
       <i class="ion-heart"></i>
       &nbsp; Favorite Article <span class="counter">({{ article.favoritesCount }})</span>
     </button>
@@ -40,10 +49,19 @@
 
 <script>
 export default {
+  name: 'article-meta',
   props: {
     article: {
       type: Object,
       default: () => ({})
+    }
+  },
+  methods: {
+    onFavorite() {
+      this.$emit('handle-favorite');
+    },
+    onFollow() {
+      this.$emit('handle-follow');
     }
   }
 }
