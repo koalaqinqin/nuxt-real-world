@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-10-25 22:17:13
- * @LastEditTime: 2020-10-26 00:04:02
+ * @LastEditTime: 2020-11-02 23:25:10
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /nuxt-real-world/api/article.js
@@ -23,6 +23,33 @@ export const getYourFeedArticles = params => {
     method: 'GET',
     url: '/api/articles/feed',
     params
+  });
+};
+
+// 添加文章
+export const addArticle = params => {
+  return request({
+    method: 'POST',
+    url: "/api/articles",
+    data: params
+  });
+};
+
+// 编辑文章
+export const updateArticle = params => {
+  return request({
+    method: 'PUT',
+    url: `/api/articles/${params.slug}`,
+    data: params
+  });
+};
+
+
+// 删除文章
+export const deleteArticle = slug => {
+  return request({
+    method: 'DELETE',
+    url: `/api/articles/${slug}`,
   });
 };
 
@@ -66,5 +93,13 @@ export const addComments = params => {
     data: {
       comment: params.comment
     }
+  });
+};
+
+// 删除文章评论
+export const deleteComments = params => {
+  return request({
+    method: 'DELETE',
+    url: `/api/articles/${params.slug}/comments/${params.id}`,
   });
 };

@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-10-25 22:17:13
- * @LastEditTime: 2020-10-25 23:59:19
- * @LastEditors: your name
+ * @LastEditTime: 2020-11-03 00:18:29
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /nuxt-real-world/api/user.js
  */
@@ -39,5 +39,22 @@ export const deleteFollow = username => {
   return request({
     method: 'DELETE',
     url: `/api/profiles/${username}/follow`
+  });
+};
+
+// 获取 profile
+export const getProfile = username => {
+  return request({
+    method: 'GET',
+    url: `/api/profiles/${username}`
+  });
+}
+
+// update user， settings
+export const updateUser = params => {
+  return request({
+    method: 'PUT',
+    url: '/api/user',
+    data: params
   });
 };

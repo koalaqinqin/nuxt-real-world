@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-10-20 00:01:07
- * @LastEditTime: 2020-10-26 00:20:31
+ * @LastEditTime: 2020-11-02 23:58:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /nuxt-real-world/nuxt.config.js
@@ -75,12 +75,12 @@ export default {
               component: resolve(__dirname, 'pages/profile')
             },
             {
-              path: '/setting',
-              name: 'setting',
-              component: resolve(__dirname, 'pages/setting')
+              path: '/settings',
+              name: 'settings',
+              component: resolve(__dirname, 'pages/settings')
             },
             {
-              path: '/editor',
+              path: '/editor/:slug?',
               name: 'editor',
               component: resolve(__dirname, 'pages/editor')
             },

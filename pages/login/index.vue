@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-10-21 22:53:51
- * @LastEditTime: 2020-10-21 23:21:22
+ * @LastEditTime: 2020-11-03 00:24:10
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /nuxt-real-world/pages/login/index.vue
@@ -25,14 +25,7 @@
           </p>
 
           <ul class="error-messages">
-            <template
-              v-for="(messages, field) in errorMsg"
-            >
-              <li
-                v-for="(message, index) in messages"
-                :key="index"
-              >{{ field }} {{ message }}</li>
-            </template>
+            <li v-for="(messages, field) in errorMsg" :key="field">{{ field }} {{ messages }}</li>
           </ul>
 
           <form @submit.prevent="onSubmit">
@@ -111,8 +104,8 @@ export default {
         Cookie && Cookie.set('user', data.user); // 登录状态存cookie，防止刷新页面cookie丢失
 
         this.$router.push('/');
-      } catch (error) {
-        this.errorMsg = error.response.data.errors;
+      } catch (err) {
+        this.errorMsg = err.response.data.errors
       }
     }
   }
