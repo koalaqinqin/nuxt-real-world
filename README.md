@@ -1,5 +1,7 @@
 # nuxt-real-world
 
+demo中的内容都已经完成。但是github Page有些页面无法使用，需要后续部署到服务器
+
 ## Build Setup
 
 ```bash
