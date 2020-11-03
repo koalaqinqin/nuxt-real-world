@@ -14,7 +14,7 @@
           :src="user ? user.image : ''"
           class="comment-author-img"
         />
-        <button class="btn btn-sm btn-primary" :class="{disabled: comment === ''}">Post Comment</button>
+        <button class="btn btn-sm btn-primary" :class="{disabled: comment === '' || isQuerying}">Post Comment</button>
       </div>
     </form>
 
@@ -62,7 +62,8 @@ export default {
   data() {
     return {
       comment: '',
-      commentsList: []
+      commentsList: [],
+      isQuerying: false
     };
   },
   computed: {
@@ -90,12 +91,15 @@ export default {
           body: this.comment
         }
       };
+      this.isQuerying = true;
       try {
         await addComments(params);
         this.getCommentsList();
+        this.comment = '';
       } catch ({ response = {} }) {
         console.dir(response.data.errors.message);
       }
+      this.isQuerying = false;
     }
   }
 }

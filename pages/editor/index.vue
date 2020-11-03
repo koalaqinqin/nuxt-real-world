@@ -41,10 +41,16 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="请输入标签，并使用;分割"
-                  v-model="article.tagList"
+                  placeholder="Enter tag"
+                  v-model="editTag"
+                  @keydown.13.prevent="inputTag"
                 />
-                <div class="tag-list"></div>
+                <div class="tag-list">
+                  <span v-for="tag in article.tagList" :key="tag" class="tag-default tag-pill">
+                    <i class="ion-close-round" @click.stop="removeTag(tag)"></i>
+                    {{ tag }}
+                  </span>
+                </div>
               </fieldset>
               <button
                 class="btn btn-lg pull-xs-right btn-primary"
@@ -75,11 +81,22 @@ export default {
         title: '',
         description: '',
         body: '',
-        tagList: ''
-      }
+        tagList: []
+      },
+      editTag: ''
     };
   },
   methods: {
+    inputTag() {
+      if (this.editTag && !this.article.tagList.includes(this.editTag)) {
+        this.article.tagList.push(this.editTag);
+        this.editTag = '';
+      }
+    },
+    removeTag(tagName) {
+      const index = this.article.tagList.indexOf(tagName);
+      this.article.tagList.splice(index, 1);
+    },
     async onSubmit() {
       try {
         const params = {
@@ -88,7 +105,6 @@ export default {
           },
         };
 
-        params.article.tagList = params.article.tagList.split(';');
         let api = addArticle;
 
         if (this.slug !== '') {

@@ -45,7 +45,6 @@ export default {
   build: {
   },
   router: { // 自定义路由表规则
-    base: '/nuxt-real-world/',
     linkActiveClass: 'active',
     extendRoutes(routes, resolve) {
       routes.splice(0); // 清除 nuxtJs 基于 pages 目录默认生成的路由表规则

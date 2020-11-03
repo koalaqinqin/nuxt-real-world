@@ -12,16 +12,26 @@
       <div class="container">
         <div class="row">
           <div class="col-xs-12 col-md-10 offset-md-1">
-            <img src="http://i.imgur.com/Qr71crq.jpg" class="user-img" />
+            <img :src="profile.image" class="user-img" />
             <h4>{{ profile.username }}</h4>
             <p>{{ profile.bio }}</p>
+            <button v-if="user.username === profile.username" class="btn btn-sm btn-secondary action-btn">
+              <nuxt-link
+                class="nav-link"
+                to="/settings"
+              >
+                <i class="ion-gear-a"></i>&nbsp;Edit Profile Settings
+              </nuxt-link>
+            </button>
             <button
-              class="btn btn-sm btn-outline-secondary action-btn"
+              class="btn btn-sm action-btn"
+              :class="{
+                'btn-secondary': profile.following,
+                'btn-outline-secondary': !profile.following,
+              }"
               @click="onFollow"
-              :disabled="profile.followingDisabled"
             >
-              <i class="ion-plus-round"></i>
-              &nbsp; Follow Eric Simons
+              <i class="ion-plus-round"></i>&nbsp;{{ profile.following ?  'Unfollow' : 'Follow'}} {{ profile.username }} 
             </button>
           </div>
         </div>
@@ -34,55 +44,60 @@
           <div class="articles-toggle">
             <ul class="nav nav-pills outline-active">
               <li class="nav-item">
-                <a class="nav-link active" href="">My Articles</a>
-              </li>
+                <nuxt-link
+                  exact
+                  :to="{
+                    name: 'profile',
+                    params: {
+                      username: profile.username,
+                    }
+                  }"
+                  class="nav-link"
+                  :class="{
+                    active: tab !== 'favorites'
+                  }"
+                >My Articles</nuxt-link>
               <li class="nav-item">
-                <a class="nav-link" href="">Favorited Articles</a>
+                <nuxt-link
+                  exact
+                  :to="{
+                    name: 'profile',
+                    params: {
+                      username: profile.username,
+                    },
+                    query: {
+                      tab: 'favorites'
+                    }
+                  }"
+                  class="nav-link"
+                  :class="{
+                    active: tab === 'favorites'
+                  }"
+                >Favorited Articles</nuxt-link>
               </li>
             </ul>
           </div>
 
-          <div class="article-preview">
-            <div class="article-meta">
-              <a href=""><img src="http://i.imgur.com/Qr71crq.jpg"/></a>
-              <div class="info">
-                <a href="" class="author">Eric Simons</a>
-                <span class="date">January 20th</span>
-              </div>
-              <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                <i class="ion-heart"></i> 29
-              </button>
-            </div>
-            <a href="" class="preview-link">
-              <h1>How to build webapps that scale</h1>
-              <p>This is the description for the post.</p>
-              <span>Read more...</span>
-            </a>
-          </div>
-
-          <div class="article-preview">
-            <div class="article-meta">
-              <a href=""><img src="http://i.imgur.com/N4VcUeJ.jpg"/></a>
-              <div class="info">
-                <a href="" class="author">Albert Pai</a>
-                <span class="date">January 20th</span>
-              </div>
-              <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                <i class="ion-heart"></i> 32
-              </button>
-            </div>
-            <a href="" class="preview-link">
-              <h1>
-                The song you won't ever stop singing. No matter how hard you
-                try.
-              </h1>
-              <p>This is the description for the post.</p>
-              <span>Read more...</span>
-              <ul class="tag-list">
-                <li class="tag-default tag-pill tag-outline">Music</li>
-                <li class="tag-default tag-pill tag-outline">Song</li>
+          <template v-if="!loading">
+            <article-item v-for="article in articles" :article="article" :key="article.slug"></article-item>
+            <!-- pagination -->
+            <nav>
+              <ul class="pagination">
+                <li
+                  class="page-item"
+                  :class="{
+                    active: item === page
+                  }"
+                  v-for="item in totalPage"
+                  :key="item"
+                >
+                  <button @click="handlePage(item)" class="btn btn-sm btn-outline-secondary page-link">{{ item }}</button>
+                </li>
               </ul>
-            </a>
+            </nav>
+          </template>
+          <div v-else class="article-preview">
+           Loading.............
           </div>
         </div>
       </div>
@@ -91,38 +106,98 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
+import ArticleItem from '@/pages/home/components/article-item.vue';
+
 import { getProfile, addFollow, deleteFollow } from "@/api/user";
+import { getArticles } from '@/api/article';
 
 export default {
   name: "UserProfile",
   middleware: "authenticated",
-  computed: {
-    ...mapState(["user"])
+  components: {
+    ArticleItem,
   },
-  async asyncData({ params }) {
-    const username = params.username;
-    const { data } = await getProfile(username);
+  computed: {
+    ...mapState(['user']),
+    totalPage () {
+      return Math.ceil(this.articlesCount / this.pageSize);
+    },
+  },
+  data() {
     return {
-      profile: data.profile
+      pageSize: 20,
+      page: 1,
+      articles: [],
+      articlesCount: 0,
+      loading: true,
     };
   },
+  async asyncData({ params, query }) {
+    const username = params.username;
+    const { data } = await getProfile(username);
+    const tab = query.tab || null;
+    return {
+      profile: Object.assign(data.profile, {
+        followingDisabled: false
+      }),
+      tab
+    };
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.getArticles(to.query.tab);
+    next();
+  },
+  mounted() {
+    this.getArticles(this.$route.query.tab);
+  },
   methods: {
-    async onFollow() {
-      let profile = this.profile;
-      profile.followingDisabled = true;
+    async getArticles(articleType) {
+      if (articleType !== this.tab) {
+        this.tab = articleType;
+      }
+      this.loading = true;
+      const params = {
+        pageSize: this.pageSize,
+        offset: (this.page - 1) * this.pageSize,
+      };
+      const username = this.$route.params.username;
+
+      if (articleType && articleType === 'favorites') {
+        params.favorited = username;
+      } else {
+        params.author = username;
+      }
+
       try {
-        if (profile.following) {
-          await deleteFollow(profile.username);
-          profile.following = false;
+        const { data } = await getArticles(params);
+        this.articles = data.articles;
+        this.articlesCount = data.articlesCount;
+      } catch (error) {
+        this.articles = [];
+        this.articlesCount = 0;
+        console.dir(error);
+      }
+      this.loading = false;
+    },
+    handlePage(page) {
+      this.page = page;
+      this.getArticles(this.tab);
+    },
+    async onFollow() {
+      this.profile.followingDisabled = true;
+      try {
+        if (this.profile.following) {
+          await deleteFollow(this.profile.username);
+          this.profile.following = false;
         } else {
-          await addFollow(profile.username);
-          profile.following = true;
+          await addFollow(this.profile.username);
+          this.profile.following = true;
         }
       } catch (error) {
         console.log(error);
       }
-      profile.followingDisabled = false;
+      this.profile.followingDisabled = false;
     }
   }
 };

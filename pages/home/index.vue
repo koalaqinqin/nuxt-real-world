@@ -70,63 +70,7 @@
             </ul>
           </div>
 
-          <div
-            class="article-preview"
-            v-for="article in articles"
-            :key="article.slug"
-          >
-            <div class="article-meta">
-              <nuxt-link
-                :to="{
-                  name: 'profile',
-                  params: {
-                    username: article.author.username
-                  }
-                }"
-              >
-                <img :src="article.author.image" />
-              </nuxt-link>
-              <div class="info">
-                <nuxt-link
-                  class="author"
-                  :to="{
-                    name: 'profile',
-                    params: {
-                      username: article.author.username
-                    }
-                  }"
-                >
-                  {{ article.author.username }}
-                </nuxt-link>
-                <span class="date">{{
-                  article.createdAt | date("MMM DD, YYYY")
-                }}</span>
-              </div>
-              <button
-                class="btn btn-outline-primary btn-sm pull-xs-right"
-                :class="{
-                  active: article.favorited
-                }"
-                @click="onFavorite(article)"
-                :disabled="article.favoriteDisabled"
-              >
-                <i class="ion-heart"></i> {{ article.favoritesCount }}
-              </button>
-            </div>
-            <nuxt-link
-              class="preview-link"
-              :to="{
-                name: 'article',
-                params: {
-                  slug: article.slug
-                }
-              }"
-            >
-              <h1>{{ article.title }}</h1>
-              <p>{{ article.description }}</p>
-              <span>Read more...</span>
-            </nuxt-link>
-          </div>
+          <article-item v-for="article in articles" :key="article.slug" :article="article"></article-item>
 
           <!-- pagination -->
           <nav>
@@ -182,10 +126,14 @@
 
 <script>
 import { mapState } from 'vuex';
-import { getArticles, getYourFeedArticles, addFavorite, deleteFavorite } from '@/api/article';
+import { getArticles, getYourFeedArticles } from '@/api/article';
 import { getTags } from '@/api/tag';
+import ArticleItem from './components/article-item.vue';
 
 export default {
+  components: {
+    ArticleItem
+  },
   async asyncData ({ query }) {
     const page = Number.parseInt(query.page || 1);
     const pageSize = 20;
@@ -225,26 +173,5 @@ export default {
       return Math.ceil(this.articlesCount / this.pageSize);
     },
   },
-  methods: {
-    async onFavorite(article) {
-      article.favoriteDisabled = true;
-      try {
-        if (article.favorited) {
-          // 取消点赞
-          await deleteFavorite(article.slug);
-          article.favorited = false;
-          article.favoritesCount -= 1;
-        } else {
-          // 添加点赞
-          await addFavorite(article.slug);
-          article.favorited = true;
-          article.favoritesCount += 1;
-        }
-      } catch (error) {
-        console.log(error);
-      }
-      article.favoriteDisabled = false;
-    }
-  }
 };
 </script>
