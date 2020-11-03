@@ -7,6 +7,7 @@
           :article="article"
           @handle-favorite="onFavorite"
           @handle-follow="onFollow"
+          @handle-delete="onDelete"
         ></article-meta>
       </div>
     </div>
@@ -21,6 +22,7 @@
           :article="article"
           @handle-favorite="onFavorite"
           @handle-follow="onFollow"
+          @handle-delete="onDelete"
         ></article-meta>
       </div>
 
@@ -38,7 +40,7 @@ import { mapState } from 'vuex';
 import MarkdownIt from 'markdown-it';
 import ArticleMeta from './components/article-meta.vue';
 import ArticleComment from './components/article-comment.vue';
-import { getArticle, getComments, deleteFavorite, addFavorite } from '@/api/article';
+import { getArticle, deleteArticle, getComments, deleteFavorite, addFavorite } from '@/api/article';
 import { addFollow, deleteFollow } from '@/api/user';
 
 export default {
@@ -96,6 +98,14 @@ export default {
         console.log(error);
       }
       author.followingDisabled = false;
+    },
+    async onDelete() {
+      try {
+        await deleteArticle(this.article.slug);
+        this.$router.push('/');
+      } catch (error) {
+        console.dir(error);
+      }
     }
   }
 };

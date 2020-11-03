@@ -44,7 +44,16 @@ export default {
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
   },
+  proxy: {
+    '/api': {
+      target: 'https://conduit.productionready.io',
+    }
+  },
+  generate: {
+    routes: ['/profile/luoqin']
+  },
   router: { // 自定义路由表规则
+    // base: '/nuxt-real-world/',
     linkActiveClass: 'active',
     extendRoutes(routes, resolve) {
       routes.splice(0); // 清除 nuxtJs 基于 pages 目录默认生成的路由表规则
@@ -56,37 +65,37 @@ export default {
             {
               path: '', // 默认子路由
               name: 'home',
-              component: resolve(__dirname, 'pages/home')
+              component: resolve(__dirname, 'pages/home/')
             },
             {
               path: '/login',
               name: 'login',
-              component: resolve(__dirname, 'pages/login')
+              component: resolve(__dirname, 'pages/login/')
             },
             {
               path: '/register',
               name: 'register',
-              component: resolve(__dirname, 'pages/login')
+              component: resolve(__dirname, 'pages/login/')
             },
             {
               path: '/profile/:username',
               name: 'profile',
-              component: resolve(__dirname, 'pages/profile')
+              component: resolve(__dirname, 'pages/profile/')
             },
             {
               path: '/settings',
               name: 'settings',
-              component: resolve(__dirname, 'pages/settings')
+              component: resolve(__dirname, 'pages/settings/')
             },
             {
               path: '/editor/:slug?',
               name: 'editor',
-              component: resolve(__dirname, 'pages/editor')
+              component: resolve(__dirname, 'pages/editor/')
             },
             {
               path: '/article/:slug',
               name: 'article',
-              component: resolve(__dirname, 'pages/article')
+              component: resolve(__dirname, 'pages/article/')
             }
           ]
         },

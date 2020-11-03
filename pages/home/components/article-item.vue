@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import { addFavorite, deleteFavorite } from '@/api/article';
 export default {
   props: {
@@ -66,25 +67,32 @@ export default {
       default: () => ({})
     }
   },
+  computed: {
+    ...mapState(['user']),
+  },
   methods: {
     async onFavorite(article) {
-      article.favoriteDisabled = true;
-      try {
-        if (article.favorited) {
-          // 取消点赞
-          await deleteFavorite(article.slug);
-          article.favorited = false;
-          article.favoritesCount -= 1;
-        } else {
-          // 添加点赞
-          await addFavorite(article.slug);
-          article.favorited = true;
-          article.favoritesCount += 1;
+      if (!this.user) {
+        this.$router.push('/login');
+      } else {
+        article.favoriteDisabled = true;
+        try {
+          if (article.favorited) {
+            // 取消点赞
+            await deleteFavorite(article.slug);
+            article.favorited = false;
+            article.favoritesCount -= 1;
+          } else {
+            // 添加点赞
+            await addFavorite(article.slug);
+            article.favorited = true;
+            article.favoritesCount += 1;
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
+        article.favoriteDisabled = false;
       }
-      article.favoriteDisabled = false;
     }
   }
 }

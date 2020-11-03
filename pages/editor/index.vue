@@ -65,7 +65,7 @@
   </div>
 </template>
 <script>
-import { addArticle, updateArticle } from '@/api/article';
+import { getArticle, addArticle, updateArticle } from '@/api/article';
 
 export default {
   name: "Editor",
@@ -85,6 +85,11 @@ export default {
       },
       editTag: ''
     };
+  },
+  mounted() {
+    if (this.slug && this.slug !== '') {
+      this.getArticle();
+    }
   },
   methods: {
     inputTag() {
@@ -115,6 +120,14 @@ export default {
         this.$router.push(`/article/${data.article.slug}`);
       } catch (error) {
         console.log(error);
+      }
+    },
+    async getArticle() {
+      try {
+        const { data } = await getArticle(this.slug);
+        this.article = data.article;
+      } catch (error) {
+        console.dir(error);
       }
     }
   }
