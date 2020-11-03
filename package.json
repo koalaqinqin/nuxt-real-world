@@ -7,7 +7,7 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "deploy": "push-dir --dir=dist --branch=master --cleanup cross-env DEPLOY_ENV=GH_PAGES"
+    "deploy": "push-dir --dir=dist --branch=master --cleanup cross-env DEPLOY_ENV=GH_PAGES --remote=git@github.com:koalaqinqin/nuxt-real-world.git"
   },
   "dependencies": {
     "axios": "^0.21.0",
