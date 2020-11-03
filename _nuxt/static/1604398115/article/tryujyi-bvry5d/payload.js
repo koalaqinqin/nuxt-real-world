@@ -1,0 +1,1 @@
+__NUXT_JSONP__("/article/tryujyi-bvry5d", (function(a,b){return {data:[{},{article:{title:"tryujyi",slug:"tryujyi-bvry5d",body:"\u003Cp\u003Eiuiuu\u003C\u002Fp\u003E\n",createdAt:a,updatedAt:a,tagList:[],description:"uyiu",author:{username:"ivanov_ivan",bio:null,image:"",following:b},favorited:b,favoritesCount:0}}],fetch:[],mutations:[]}}("2020-11-03T09:08:37.421Z",false)));
