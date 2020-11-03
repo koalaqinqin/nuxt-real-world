@@ -6,14 +6,7 @@
  * @Description: In User Settings Edit
  * @FilePath: /nuxt-real-world/nuxt.config.js
  */
-const routerBase =
-  process.env.DEPLOY_ENV === 'GH_PAGES'
-    ? {
-        router: {
-          base: '/nuxt-real-world/'
-        }
-      }
-    : {}
+const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? '/nuxt-real-world/' : '/';
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
@@ -61,7 +54,7 @@ export default {
     routes: ['/profile/luoqin']
   },
   router: { // 自定义路由表规则
-    base: '/nuxt-real-world/', // 静态站点
+    base: routerBase,
     linkActiveClass: 'active',
     extendRoutes(routes, resolve) {
       routes.splice(0); // 清除 nuxtJs 基于 pages 目录默认生成的路由表规则
