@@ -7,7 +7,9 @@
  * @FilePath: /nuxt-real-world/nuxt.config.js
  */
 const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? '/nuxt-real-world/' : '/';
+const target = process.env.DEPLOY_ENV === 'GH_PAGES' ? 'static': 'server';
 export default {
+  target,
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     title: 'luoqin\'s blog',
