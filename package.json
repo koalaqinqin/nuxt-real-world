@@ -6,16 +6,19 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "deploy": "push-dir --dir=dist --branch=master --cleanup cross-env DEPLOY_ENV=GH_PAGES"
   },
   "dependencies": {
     "axios": "^0.21.0",
     "cookieparser": "^0.1.0",
     "core-js": "^3.6.5",
+    "cross-env": "^7.0.2",
     "dayjs": "^1.9.4",
     "js-cookie": "^2.2.1",
     "markdown-it": "^12.0.2",
-    "nuxt": "^2.14.6"
+    "nuxt": "^2.14.6",
+    "push-dir": "^0.4.1"
   },
   "devDependencies": {}
 }
